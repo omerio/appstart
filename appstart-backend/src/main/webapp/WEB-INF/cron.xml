@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <cron>
+    <url>/backend/process</url>
+    <description>Carryout long batch processing</description>
+    <schedule>every day 00:00</schedule>
+    <target>backend</target>
+  </cron>
+</cronentries>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    
+    <!-- GAE /_ah/start signal -->
+    <!-- Dynamic Backends with Guice are really slow to startup so bypass guice for the startup signal -->
+    <filter>
+        <filter-name>startupFilter</filter-name>
+        <filter-class>uk.co.inetria.appstart.backend.filters.GAEStartFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>startupFilter</filter-name>
+        <url-pattern>/_ah/start</url-pattern>
+    </filter-mapping>
+    
+    <!-- Google Guice Filter -->
+    
+    <filter>
+        <filter-name>guiceFilter</filter-name>
+        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>guiceFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>uk.co.inetria.appstart.backend.listeners.ContextListener</listener-class>
+    </listener>
+         
+    <!-- Uncomment to use HTTPS -->
+    <!-- 
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Root Application</web-resource-name>
+            <url-pattern>/</url-pattern>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>  
+     -->
+     
+    <!-- Only Admin roles are allowed to access the backend directly --> 
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Admin Pages</web-resource-name>
+            <url-pattern>/</url-pattern>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+</web-app>
