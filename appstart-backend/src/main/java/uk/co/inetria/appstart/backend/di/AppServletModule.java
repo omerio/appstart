@@ -18,6 +18,8 @@
  */
 package uk.co.inetria.appstart.backend.di;
 
+import uk.co.inetria.appstart.backend.servlets.BackendServlet;
+
 import com.google.inject.servlet.ServletModule;
 import com.googlecode.objectify.ObjectifyFilter;
 
@@ -42,7 +44,7 @@ public class AppServletModule extends ServletModule {
 		filter("/*").through(ObjectifyFilter.class);
 
 		// servlets
-		//serve("/home").with(HomeServlet.class);
+		serve("/backend/process").with(BackendServlet.class);
 			
 		
 	}

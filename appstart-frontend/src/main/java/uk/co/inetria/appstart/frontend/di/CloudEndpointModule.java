@@ -21,7 +21,7 @@ package uk.co.inetria.appstart.frontend.di;
 import java.util.HashSet;
 import java.util.Set;
 
-import uk.co.inetria.appstart.frontend.endpoint.ContactEndpoint;
+import uk.co.inetria.appstart.frontend.endpoint.AnnouncementEndpoint;
 
 import com.google.api.server.spi.guice.GuiceSystemServiceServletModule;
 
@@ -38,7 +38,7 @@ public class CloudEndpointModule extends GuiceSystemServiceServletModule {
 	    super.configureServlets();
 
 	    Set<Class<?>> serviceClasses = new HashSet<Class<?>>();
-	    serviceClasses.add(ContactEndpoint.class);
+	    serviceClasses.add(AnnouncementEndpoint.class);
 	    
 	    this.serveGuiceSystemServiceServlet("/_ah/spi/*", serviceClasses);
 	  }

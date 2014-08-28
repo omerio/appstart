@@ -168,7 +168,8 @@
                         <resource>
                             <!-- this is relative to the pom.xml directory -->
                             <directory>${project.build.directory}/generated-sources/appengine-endpoints</directory>
-                            <!-- the list has a default value of ** -->
+                            <!-- filtering is needed to interpolate app name from pom into the discovery files -->
+                            <filtering>true</filtering>
                             <includes>
                                 <include>WEB-INF/*.discovery</include>
                                 <include>WEB-INF/*.api</include>

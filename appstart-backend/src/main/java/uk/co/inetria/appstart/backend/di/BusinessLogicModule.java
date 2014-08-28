@@ -18,7 +18,11 @@
  */
 package uk.co.inetria.appstart.backend.di;
 
+import uk.co.inetria.appstart.common.services.AnnouncementService;
+import uk.co.inetria.appstart.common.services.AnnouncementServiceImpl;
+
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import com.googlecode.objectify.ObjectifyFilter;
 
@@ -38,7 +42,7 @@ public class BusinessLogicModule extends AbstractModule {
 	protected void configure() {
 		
 		bind(ObjectifyFilter.class).in(Singleton.class);
-		//bind(FormService.class).to(FormServiceImpl.class).in(Scopes.SINGLETON);
+		bind(AnnouncementService.class).to(AnnouncementServiceImpl.class).in(Scopes.SINGLETON);
 		
 	}
 

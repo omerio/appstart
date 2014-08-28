@@ -25,11 +25,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.inject.Singleton;
+
 /**
  * @author Omer Dawelbeit
  *
  */
+@Singleton
 public class BackendServlet extends HttpServlet {
+
+	private static final long serialVersionUID = -3573239534075174833L;
 
 	/* (non-Javadoc)
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -38,7 +43,11 @@ public class BackendServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		super.doGet(req, resp);
+		
+		// kick a backend thread to carryout with the work
+		
+		resp.getWriter().println("Backend job started successfully");
+		resp.setStatus(HttpServletResponse.SC_OK);
 	}
 
 }

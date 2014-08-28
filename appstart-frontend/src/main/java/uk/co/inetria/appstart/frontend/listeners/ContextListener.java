@@ -22,12 +22,15 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletContextEvent;
 
+import uk.co.inetria.appstart.common.entities.Announcement;
 import uk.co.inetria.appstart.frontend.di.AppServletModule;
 import uk.co.inetria.appstart.frontend.di.BusinessLogicModule;
+import uk.co.inetria.appstart.frontend.di.CloudEndpointModule;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
+import com.googlecode.objectify.ObjectifyService;
 
 /**
  * @author Omer Dawelbeit
@@ -46,7 +49,7 @@ public class ContextListener extends GuiceServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		super.contextInitialized(event);
 		// Register you objectify entities here
-
+		ObjectifyService.register(Announcement.class);
 		log.info("Context created");
 
 	}
@@ -56,7 +59,8 @@ public class ContextListener extends GuiceServletContextListener {
 		// create an injector for the application servlets and business logic services
 		return Guice.createInjector(
 				new BusinessLogicModule(),
-				new AppServletModule());
+				new AppServletModule(),
+				new CloudEndpointModule());
 		
 	}
 	
