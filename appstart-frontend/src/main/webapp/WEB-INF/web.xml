@@ -35,6 +35,7 @@
         <web-resource-collection>
             <web-resource-name>Homepage</web-resource-name>
             <url-pattern>/home</url-pattern>
+            <url-pattern>/rest/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>*</role-name>

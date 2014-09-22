@@ -5,17 +5,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
-import javax.ws.rs.core.Response;
 
 import uk.co.inetria.appstart.common.entities.Announcement;
 import uk.co.inetria.appstart.common.services.AnnouncementService;
-import uk.co.inetria.appstart.common.utils.Utils;
 import uk.co.inetria.appstart.frontend.Constants;
 
 import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiResourceProperty;
+import com.google.appengine.api.users.User;
 import com.google.inject.Inject;
 
 /**
@@ -37,29 +36,30 @@ public class AnnouncementEndpoint {
 	private AnnouncementService service;
 	
 	@ApiMethod(name = "announcements.list")
-	public List<Announcement> list() {
+	public List<Announcement> list(User user) {
+		this.authenticate(user);
 		return Announcement.findAll(false);
 	}
 	
 	@ApiMethod(name = "announcements.get")
-	public Announcement get(@Named("id") Long id) {
+	public Announcement get(@Named("id") Long id, User user) {
+		this.authenticate(user);
 		Announcement announcement = Announcement.findById(id);
 		if(announcement == null) {
-			Utils.throwRestException("Announcement with id: " + id + ", is not found", 
-					Response.Status.NOT_FOUND);
+			throw new RuntimeException("Announcement with id: " + id + ", is not found");
 		}
 		return announcement;
 	}
 	
 	@ApiMethod(name = "announcements.create", httpMethod = "post")
-	public Announcement create(Announcement announcement) {
-		
+	public Announcement create(Announcement announcement, User user) {
+		this.authenticate(user);
 		try {
 			service.create(announcement);
 			
 		} catch(Exception e) {
 			log.log(Level.SEVERE, "Something went wrong", e);
-			Utils.throwRestException(e.getMessage(), Response.Status.BAD_REQUEST);
+			throw e;
 		}
 		
 		return announcement;
@@ -70,13 +70,14 @@ public class AnnouncementEndpoint {
 		path = "announcements/{id}"
 	)
 	public Announcement update(@Named("id") Long id,
-							   Announcement announcement) {
+							   Announcement announcement, User user) {
+		this.authenticate(user);
 		try {
 			service.update(announcement, id);
 			
 		} catch(Exception e) {
 			log.log(Level.SEVERE, "Something went wrong", e);
-			Utils.throwRestException(e.getMessage(), Response.Status.BAD_REQUEST);
+			throw e;
 		}
 		
 		return announcement;
@@ -86,17 +87,27 @@ public class AnnouncementEndpoint {
 		name = "announcements.delete",
 		path = "announcements/{id}"
 	)
-	public Announcement delete(@Named("id") Long id) {
-		
+	public Announcement delete(@Named("id") Long id, User user) {
+		this.authenticate(user);
 		Announcement announcement = null;
 		try {
 			announcement = service.delete(id);
 			
 		} catch(Exception e) {
 			log.log(Level.SEVERE, "Something went wrong", e);
-			Utils.throwRestException(e.getMessage(), Response.Status.BAD_REQUEST);
+			throw e;
 		}
 		return announcement;
+	}
+	
+	private void authenticate(User user) {
+		if(user == null) {
+			log.warning("User is not authenticated");
+			throw new RuntimeException("Authentication required!");
+		} else {
+			// further validation such as domain checking, etc...
+			log.info(user.getEmail());
+		}
 	}
 
 	/*
@@ -108,44 +119,5 @@ public class AnnouncementEndpoint {
 		this.service = service;
 	}
 	*/
-	
-	/*
-	 * 
-	 * public static ArrayList<HelloGreeting> greetings = new ArrayList<HelloGreeting>();
-
-	static {
-		greetings.add(new HelloGreeting("hello world!"));
-		greetings.add(new HelloGreeting("goodbye world!"));
-	}
-
-	public HelloGreeting getGreeting(@Named("id") Integer id) throws NotFoundException {
-		try {
-			return greetings.get(id);
-		} catch (IndexOutOfBoundsException e) {
-			throw new NotFoundException("Greeting not found with an index: " + id);
-		}
-	}
-
-	public ArrayList<HelloGreeting> listGreeting() {
-		return greetings;
-	}
-
-	@ApiMethod(name = "greetings.multiply", httpMethod = "post")
-	public HelloGreeting insertGreeting(@Named("times") Integer times, HelloGreeting greeting) {
-		HelloGreeting response = new HelloGreeting();
-		StringBuilder responseBuilder = new StringBuilder();
-		for (int i = 0; i < times; i++) {
-			responseBuilder.append(greeting.getMessage());
-		}
-		response.setMessage(responseBuilder.toString());
-		return response;
-	}
-
-	@ApiMethod(name = "greetings.authed", path = "hellogreeting/authed")
-	public HelloGreeting authedGreeting(User user) {
-		HelloGreeting response = new HelloGreeting("hello " + user.getEmail());
-		return response;
-	}
-	 */
 	 
 }

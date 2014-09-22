@@ -33,6 +33,7 @@ A "hello world" application for Google Cloud Endpoints in Java.
 1. Run the application with `mvn appengine:devserver`, and ensure it's
    running by visiting your local server's address (by default
    [localhost:8080][5].)
+   http://localhost:8888/_ah/api/explorer
 
 1. Get the client library with
 
