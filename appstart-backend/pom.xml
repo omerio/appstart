@@ -38,6 +38,14 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Lombok -->
+        <dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.14.8</version>
+			<scope>provided</scope>
+		</dependency>
+		
         <!-- Objectify -->
         <dependency>
             <groupId>com.googlecode.objectify</groupId>

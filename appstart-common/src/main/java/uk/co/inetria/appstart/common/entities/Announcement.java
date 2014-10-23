@@ -24,9 +24,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Data;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.googlecode.objectify.Key;
@@ -40,6 +41,7 @@ import com.googlecode.objectify.annotation.OnSave;
  *
  */
 @Entity
+@Data
 public class Announcement {
 
 	@Id
@@ -140,59 +142,6 @@ public class Announcement {
 
 	public static void removeAll(List<Announcement> announcement) {
 		ofy().delete().entities(announcement).now();
-	}
-
-	//------------- Getters and Setters
-
-	public Long getId() {
-		return id;
-	}
-
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-	public String getTitle() {
-		return title;
-	}
-
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public boolean isArchived() {
-		return archived;
-	}
-
-
-	public void setArchived(boolean archived) {
-		this.archived = archived;
-	}
-
-	public Date getDateAdded() {
-		return dateAdded;
-	}
-
-
-	public void setDateAdded(Date dateAdded) {
-		this.dateAdded = dateAdded;
-	}
-
-
-	public Date getDateArchived() {
-		return dateArchived;
-	}
-
-
-	public void setDateArchived(Date dateArchived) {
-		this.dateArchived = dateArchived;
-	}
-
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
 	}
 
 }
