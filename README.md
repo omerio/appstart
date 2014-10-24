@@ -1,58 +1,46 @@
 appstart
 ========
 
-Google App Engine Java boilerplate template
+Appstart is a Java boilerplate template for rapid development of multi-module [Google App Engine][1] applications based on [Google Guice][2], a lightweight dependency injection framework. 
+Appstart uses the [App Engine Maven plugin][4], it has a parent pom and 3 maven projects. 2 of the projects (appstart-front and appstart-backend) are App Engine modules. <b>appstart-frontend</b> is configured to use a frontend instance and <b>appstart-backend</b> is configured to use a backend instance. The third project <b>appstart-common</b> is a common code project shared between the <b>appstart-frontend</b> and <b>appstart-backend</b> modules.
 
+## Key Technologies/Libraries
 
+The following key technologies/libraries are used by Appstart. You can either use some or all of these technologies depending on your needs:
 
-A "hello world" application for Google Cloud Endpoints in Java.
+- <b>[Google Guice][2]</b>: App Engine friendly, lightweight dependency injection framework. 
+- <b>[Objectify][6]</b>: Convenient data access API for the App Engine datastore.
+- <b>[Cloud Endpoints][3]</b>: App Engine REST/RPC API to simplify clients (Android, iOS, etc..) access.
+- <b>[Jersey & Jersey Guice integration][7]</b>: Jersey framework is an implementation of the JAX-RS (JSR 311 & JSR 339) to provide RESTful Web services in Java. 
+- <b>[Lombok][8]</b>: A framework for boilerplate code generation such as getter, setter, constructors, equalTo, hashCode, etc... Saving you time to focus on your business logic.
+- <b>[Google Guava][9], [Google Gson][11] and [Apache Commons Lang][10]</b>: Useful Java libraries that plays well with App Engine.
 
-- [App Engine][1]
+## Usage:
+You need to change the following values with your own:
 
-- [Java][2]
+- App Engine app-id (`<appengine.app.name>appstart-demo</appengine.app.name>`) in appstart/pom.xml 
+- For [Google Cloud Endpoints][3] Update the values in (`appstart/appstart-frontend/src/main/java/uk/co/inetria/appstart/Constants.java`) to reflect the respective client IDs you have registered in the [APIs Console][5].
 
-- [Google Cloud Endpoints][3]
-- [Google App Engine Maven plugin][4]
-
-
-1. Update the value of `application` in `appengine-web.xml` to the app
-   ID you have registered in the App Engine admin console and would
-   like to use to host your instance of this sample.
-
-1. Optional step: These sub steps are not required but you need to do
-   this if you want to use auth protected API methods.
-
-    1. Update the values in `src/main/java/uk/co/inetria/appstart/Constants.java`
-       to reflect the respective client IDs you have registered in the
-       [APIs Console][6].
-
-    1. Update the value of `google.devrel.samples.helloendpoints.CLIENT_ID`
-       in `src/main/webapp/base.js` to reflect the web client ID you have
-       registered in the [APIs Console][4].
-
-1. Run the application with `mvn appengine:devserver`, and ensure it's
-   running by visiting your local server's address (by default
-   [localhost:8080][5].)
-   http://localhost:8888/_ah/api/explorer
-
-1. Get the client library with
-
-   $ mvn appengine:endpoints_get_client_lib
-
-   It will generate a jar file named something like
-   `helloworld-v1-1.18.0-rc-SNAPSHOT.jar` under the
-   `target/endpoints-client-libs/<api-name>/target` directory of your
-   project, as well as install the artifact into your local maven
-   repository.
-
-1. Deploy your application to Google App Engine with
-
-   $ mvn appengine:update
-   
+To run or deploy the application:
+```bash
+    git clone https://github.com/omerio/appstart.git
+    cd appstart
+    mvn install
+    cd appstart-ear
+    #to test it locally:
+    mvn appengine:devserver
+    #or to deploy it:
+    mvn appengine:update
+```    
 
 [1]: https://developers.google.com/appengine
-[2]: http://java.com/en/
+[2]: https://github.com/google/guice/wiki/GoogleAppEngine
 [3]: https://developers.google.com/appengine/docs/java/endpoints/
 [4]: https://developers.google.com/appengine/docs/java/tools/maven
-[5]: https://localhost:8080/
-[6]: https://console.developers.google.com/
+[5]: https://console.developers.google.com/
+[6]: https://code.google.com/p/objectify-appengine/
+[7]: https://jersey.java.net/
+[8]: http://projectlombok.org/
+[9]: https://code.google.com/p/guava-libraries/
+[10]: http://commons.apache.org/proper/commons-lang/
+[11]:https://code.google.com/p/google-gson/
