@@ -1,4 +1,4 @@
-appstart
+Appstart
 ========
 
 Appstart is a Java boilerplate template for rapid development of multi-module [Google App Engine][1] applications based on [Google Guice][2], a lightweight dependency injection framework. 
@@ -32,6 +32,12 @@ To run or deploy the application:
     #or to deploy it:
     mvn appengine:update
 ```    
+
+## Local URLs:
+- Homepage (frontend module): [http://localhost:8888/home](http://localhost:8888/home)
+- API Explorer: [http://localhost:8888/_ah/api/explorer](http://localhost:8888/_ah/api/explorer)
+- Backend module (port number might be different, check you dev server output): [http://localhost:54423](http://localhost:54423)
+
 
 [1]: https://developers.google.com/appengine
 [2]: https://github.com/google/guice/wiki/GoogleAppEngine
