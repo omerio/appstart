@@ -14,7 +14,7 @@
     </parent>
 
     <properties>
-        <appengine.app.version>1</appengine.app.version>
+        <appengine.app.version>2</appengine.app.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -109,7 +109,7 @@
         <dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.14.8</version>
+			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
