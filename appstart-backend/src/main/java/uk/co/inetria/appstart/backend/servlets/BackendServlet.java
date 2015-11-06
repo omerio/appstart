@@ -28,6 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.inject.Singleton;
 
 /**
+ * This servlet will be invoked daily by a GAE cron job to archive all completed
+ * todos that are more than 24 hours old
+ * 
  * @author Omer Dawelbeit
  *
  */

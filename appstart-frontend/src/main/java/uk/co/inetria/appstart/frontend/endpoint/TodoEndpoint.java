@@ -6,8 +6,8 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
-import uk.co.inetria.appstart.common.entities.Announcement;
-import uk.co.inetria.appstart.common.services.AnnouncementService;
+import uk.co.inetria.appstart.common.entities.Todo;
+import uk.co.inetria.appstart.common.services.TodoService;
 import uk.co.inetria.appstart.frontend.Constants;
 
 import com.google.api.server.spi.config.AnnotationBoolean;
@@ -18,7 +18,7 @@ import com.google.appengine.api.users.User;
 import com.google.inject.Inject;
 
 /**
- * Defines v1 of a helloworld API, which provides simple "greeting" methods.
+ * Defines v1 of a appstart todo API, which provides simple CRUD methods.
  */
 @Api(
 		name = "appstart",
@@ -27,83 +27,83 @@ import com.google.inject.Inject;
 		clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID, Constants.IOS_CLIENT_ID},
 		audiences = {Constants.ANDROID_AUDIENCE}
 )
-public class AnnouncementEndpoint {
+public class TodoEndpoint {
 
-	private static final Logger log = Logger.getLogger(AnnouncementEndpoint.class.getName());
+	private static final Logger log = Logger.getLogger(TodoEndpoint.class.getName());
 	
 	@Inject
 	@ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-	private AnnouncementService service;
+	private TodoService service;
 	
-	@ApiMethod(name = "announcements.list")
-	public List<Announcement> list(User user) {
+	@ApiMethod(name = "todos.list")
+	public List<Todo> list(User user) {
 		this.authenticate(user);
-		return Announcement.findAll(false);
+		return Todo.findAllByArchived(false);
 	}
 	
-	@ApiMethod(name = "announcements.get")
-	public Announcement get(@Named("id") Long id, User user) {
+	@ApiMethod(name = "todos.get")
+	public Todo get(@Named("id") Long id, User user) {
 		this.authenticate(user);
-		Announcement announcement = Announcement.findById(id);
-		if(announcement == null) {
-			throw new RuntimeException("Announcement with id: " + id + ", is not found");
+		Todo todo = Todo.findById(id);
+		if(todo == null) {
+			throw new RuntimeException("Todo with id: " + id + ", is not found");
 		}
-		return announcement;
+		return todo;
 	}
 	
-	@ApiMethod(name = "announcements.create", httpMethod = "post")
-	public Announcement create(Announcement announcement, User user) {
+	@ApiMethod(name = "todos.create", httpMethod = "post")
+	public Todo create(Todo dodo, User user) {
 		this.authenticate(user);
 		try {
-			service.create(announcement);
+			service.create(dodo);
 			
 		} catch(Exception e) {
 			log.log(Level.SEVERE, "Something went wrong", e);
 			throw e;
 		}
 		
-		return announcement;
+		return dodo;
 	}
 	
 	@ApiMethod(
-		name = "announcements.update",
-		path = "announcements/{id}"
+		name = "todos.update",
+		path = "todos/{id}"
 	)
-	public Announcement update(@Named("id") Long id,
-							   Announcement announcement, User user) {
+	public Todo update(@Named("id") Long id,
+							   Todo todo, User user) {
 		this.authenticate(user);
 		try {
-			service.update(announcement, id);
+			service.update(todo, id);
 			
 		} catch(Exception e) {
 			log.log(Level.SEVERE, "Something went wrong", e);
 			throw e;
 		}
 		
-		return announcement;
+		return todo;
 	}
 	
 	@ApiMethod(
-		name = "announcements.delete",
-		path = "announcements/{id}"
+		name = "todos.delete",
+		path = "todos/{id}"
 	)
-	public Announcement delete(@Named("id") Long id, User user) {
+	public Todo delete(@Named("id") Long id, User user) {
 		this.authenticate(user);
-		Announcement announcement = null;
+		Todo todo = null;
 		try {
-			announcement = service.delete(id);
+			todo = service.delete(id);
 			
 		} catch(Exception e) {
 			log.log(Level.SEVERE, "Something went wrong", e);
 			throw e;
 		}
-		return announcement;
+		return todo;
 	}
 	
 	private void authenticate(User user) {
 		if(user == null) {
 			log.warning("User is not authenticated");
-			throw new RuntimeException("Authentication required!");
+			//throw new RuntimeException("Authentication required!");
 		} else {
 			// further validation such as domain checking, etc...
 			log.info(user.getEmail());

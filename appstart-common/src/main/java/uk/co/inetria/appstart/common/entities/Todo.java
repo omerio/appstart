@@ -37,20 +37,23 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
 
 /**
+ * Todo entity. 
+ * The CRUD pattern used here is similar to the Active Entity pattern
+ * 
  * @author omerio
  *
  */
 @Entity
 @Data
-public class Announcement {
+public class Todo {
 
 	@Id
 	private Long id;
 
 	private String title;
 
-	//@Index
-	//private String addedBy;
+	@Index
+	private boolean completed;
 
 	@Index
 	private boolean archived;
@@ -68,10 +71,6 @@ public class Announcement {
 		if(this.dateAdded == null) {
 			this.dateAdded = new Date();
 		}
-
-		/*if(addedBy != null) {
-			addedBy = addedBy.toLowerCase();
-		}*/
 	}
 
 	public boolean valid() {
@@ -87,61 +86,59 @@ public class Announcement {
 
 	//------- CRUD
 
-	public static List<Announcement> findAll()	{
-		return ofy().load().type(Announcement.class).list();
+	public static List<Todo> findAll()	{
+		return ofy().load().type(Todo.class).list();
 	}
 
-	public static List<Announcement> findAll(boolean archived)	{
-		return ofy().load().type(Announcement.class).filter("archived", archived).list();
+	public static List<Todo> findAllByArchived(boolean archived)	{
+		return ofy().load().type(Todo.class).filter("archived", archived).list();
+	}
+	
+	public static List<Todo> findAllByCompleted(boolean completed)	{
+		return ofy().load().type(Todo.class).filter("completed", completed).list();
 	}
 
 	/**
-	 * Find all announcements which are not archived and are older than the provided
+	 * Find all todos which are completed, not archived and are older than the provided
 	 * date.
 	 * @param date
 	 * @return
 	 */
-	public static List<Announcement> findAllToArchive(Date date)	{
-		return ofy().load().type(Announcement.class)
+	public static List<Todo> findAllToArchive(Date date)	{
+		return ofy().load().type(Todo.class)
 				.filter("archived", false)
+				.filter("completed", true)
 				.filter("dateAdded <=", date).list();
 	}
 
 
 
-	public static Announcement findByKey(String key) {
+	public static Todo findByKey(String key) {
 		return findByKey(KeyFactory.stringToKey(key));
 	}
 
-	public static Announcement findByKey(com.google.appengine.api.datastore.Key key) {
-		return (Announcement) ofy().load().value(key).now();
+	public static Todo findByKey(com.google.appengine.api.datastore.Key key) {
+		return (Todo) ofy().load().value(key).now();
 	}
 
-	/*public static List<Announcement> findByAddedBy(String email) {
-		if(email != null) {
-			email = email.toLowerCase();
-		}
-		return ofy().load().type(Announcement.class).filter("addedBy", email).list();
-	}*/
-
-	public static Announcement findById(Long id) {
-		return ofy().load().type(Announcement.class).id(id).now();
+	public static Todo findById(Long id) {
+		return ofy().load().type(Todo.class).id(id).now();
 	}
 
-	public Key<Announcement> save()	{
+	public Key<Todo> save()	{
 		return ofy().save().entity(this).now();
 	}
 
-	public static Map<Key<Announcement>, Announcement> saveAll(List<Announcement> announcements)	{
-		return ofy().save().entities(announcements).now();
+	public static Map<Key<Todo>, Todo> saveAll(List<Todo> todos)	{
+		return ofy().save().entities(todos).now();
 	}
 
 	public void remove()	{
 		ofy().delete().entity(this).now();
 	}
 
-	public static void removeAll(List<Announcement> announcement) {
-		ofy().delete().entities(announcement).now();
+	public static void removeAll(List<Todo> todos) {
+		ofy().delete().entities(todos).now();
 	}
 
 }

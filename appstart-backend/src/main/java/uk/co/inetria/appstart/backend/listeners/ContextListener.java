@@ -30,6 +30,7 @@ import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
 
 /**
+ * Servlet Context Listener for when the application is started, we initialize Guice here
  * @author Omer Dawelbeit
  *
  */

@@ -9,10 +9,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 /**
+ * Some RESTful API utilities
  * @author dawelbeito
  *
  */
-public class Utils {
+public class RestUtils {
 	
 	/**
 	 * Rest exceptions

@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletContextEvent;
 
-import uk.co.inetria.appstart.common.entities.Announcement;
+import uk.co.inetria.appstart.common.entities.Todo;
 import uk.co.inetria.appstart.frontend.di.AppServletModule;
 import uk.co.inetria.appstart.frontend.di.BusinessLogicModule;
 import uk.co.inetria.appstart.frontend.di.CloudEndpointModule;
@@ -49,7 +49,7 @@ public class ContextListener extends GuiceServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		super.contextInitialized(event);
 		// Register you objectify entities here
-		ObjectifyService.register(Announcement.class);
+		ObjectifyService.register(Todo.class);
 		log.info("Context created");
 
 	}

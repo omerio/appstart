@@ -18,14 +18,15 @@
  */
 package uk.co.inetria.appstart.backend.di;
 
-import uk.co.inetria.appstart.backend.servlets.BackendServlet;
-
 import com.google.inject.servlet.ServletModule;
 import com.googlecode.objectify.ObjectifyFilter;
 
+import uk.co.inetria.appstart.backend.servlets.BackendServlet;
+
 /**
  * Register all the servlets & filters here so Guice can manage their dependencies
- * and parse the @Inject annotation
+ * and parse the @Inject annotation. Servlets should be annotated with @Singleton
+ * 
  * @author Omer Dawelbeit
  *
  */

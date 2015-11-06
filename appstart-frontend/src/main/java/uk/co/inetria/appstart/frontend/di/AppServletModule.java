@@ -59,7 +59,7 @@ public class AppServletModule extends ServletModule {
         // speed up jersey startup under appengine
         params.put(ResourceConfig.FEATURE_DISABLE_WADL, "true");
         
-        serve("/rest/*").with(GuiceContainer.class, params);
+        serve("/api/*").with(GuiceContainer.class, params);
 		
 		
 	}

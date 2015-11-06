@@ -35,7 +35,7 @@
         <web-resource-collection>
             <web-resource-name>Homepage</web-resource-name>
             <url-pattern>/home</url-pattern>
-            <url-pattern>/rest/*</url-pattern>
+            <url-pattern>/api/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>*</role-name>
@@ -63,7 +63,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
    <param-name>services</param-name>
-   <param-value>uk.co.inetria.appstart.frontend.endpoint.AnnouncementEndpoint</param-value>
+   <param-value>uk.co.inetria.appstart.frontend.endpoint.TodoEndpoint</param-value>
   </init-param>
  </servlet>
  <servlet-mapping>
