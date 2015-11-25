@@ -6,6 +6,10 @@ Appstart uses the [App Engine Maven plugin][4], it has a parent pom and 3 maven 
 
 Appstart encourages the [Single Page Application (SPA)][13] pattern by providing backend services as APIs that can be invoked from any frontend, be it Web or Mobile. The philosophy of Appstart is to enable you to spend less or no time writing boilerplate code and more time focusing on your business logic.
 
+## Demo ##
+
+A live demo is available [here][16].
+
 ## Key Technologies/Libraries
 
 The following key technologies/libraries are used by Appstart. You can either use some or all of these technologies depending on your needs:
@@ -45,6 +49,13 @@ To run or deploy the application:
 - API Explorer: [http://localhost:8888/_ah/api/explorer](http://localhost:8888/_ah/api/explorer)
 - Backend module (port number might be different, check you dev server output): [http://localhost:54423](http://localhost:54423)
 
+## TODO ##
+* Create documentations.
+* Add sample unit tests that uses the App Engine local unit testing libraries.
+* Create Cloud Endpoints frontend code to authenticate a user and refresh the OAuth token once it expires.
+* Provide an option on the frontend to use either the JAX-RS REST or Cloud Endpoints
+* Create a Maven archetype to easily scaffold projects.
+
 
 [1]: https://developers.google.com/appengine
 [2]: https://github.com/google/guice/wiki/GoogleAppEngine
@@ -61,3 +72,4 @@ To run or deploy the application:
 [13]: http://omerio.com/2014/03/23/single-page-apps-a-bleeding-edge-new-concept-or-a-revived-old-one/
 [14]: https://cloud.google.com/appengine/docs/java/tools/localunittesting
 [15]: http://jmockit.org/
+[16]: http://appstart-demo.appspot.com/index.html#/
