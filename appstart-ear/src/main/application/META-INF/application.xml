@@ -5,14 +5,14 @@
     <web>
       <web-uri>appstart-frontend-1.0-SNAPSHOT.war</web-uri>
       <!-- Ignored by AppEngine -->
-      <context-root>/default</context-root>
+      <context-root>/appstart-frontend</context-root>
     </web>
   </module>
   <module>
     <web>
       <web-uri>appstart-backend-1.0-SNAPSHOT.war</web-uri>
       <!-- Ignored by AppEngine -->
-      <context-root>/backend</context-root>
+      <context-root>/appstart-backend</context-root>
     </web>
   </module>
   <library-directory>lib</library-directory>
