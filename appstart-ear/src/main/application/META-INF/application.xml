@@ -3,6 +3,12 @@
   <display-name>appengine-modules-ear</display-name>
   <module>
     <web>
+      <!--     
+        It is recommended the first module is the default module, so that
+        the first deployment will work (and create the mandatory default module,
+        before deploying the second module.
+      -->  
+      <!-- TODO interpolate the maven app version here -->
       <web-uri>appstart-frontend-1.0-SNAPSHOT.war</web-uri>
       <!-- Ignored by AppEngine -->
       <context-root>/default</context-root>
@@ -10,6 +16,7 @@
   </module>
   <module>
     <web>
+      <!-- TODO interpolate the maven app version here -->
       <web-uri>appstart-backend-1.0-SNAPSHOT.war</web-uri>
       <!-- Ignored by AppEngine -->
       <context-root>/backend</context-root>

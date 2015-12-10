@@ -9,7 +9,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<appengine.app.name>appstart-demo</appengine.app.name>
+		<appengine.app.name>appstart-web</appengine.app.name>
 		<java.version>1.7</java.version>
 		<!-- <appengine.target.version>1.9.0</appengine.target.version> -->
 		<appengine.target.version>1.9.28</appengine.target.version>

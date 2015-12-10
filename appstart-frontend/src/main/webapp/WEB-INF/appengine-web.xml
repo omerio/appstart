@@ -2,9 +2,14 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 
     <application>${appengine.app.name}</application>
+    <!-- 
+       We do not specify the module name so this is the default module.
+       There is only 1 default module per application.
+  	-->  
+  	
+    <!-- <module>default</module>  -->
     <version>${appengine.app.version}</version>
     <threadsafe>true</threadsafe>
-    <module>default</module>
      
     <!-- Performance settings here...-->
     <instance-class>F1</instance-class>

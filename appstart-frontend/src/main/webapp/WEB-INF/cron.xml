@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
+  <!-- The cron file need to be placed in the default module as mentioned here
+  	https://cloud.google.com/appengine/docs/java/modules/#optional_configuration_files
+  -->
   <cron>
     <url>/backend/process</url>
     <description>Carryout long batch processing</description>

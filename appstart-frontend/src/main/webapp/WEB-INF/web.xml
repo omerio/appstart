@@ -31,7 +31,8 @@
     </security-constraint>
      -->  
     
-    <security-constraint>
+    <!--  Uncomment to secure some pages and require Google Account login -->
+    <!-- <security-constraint>
         <web-resource-collection>
             <web-resource-name>Homepage</web-resource-name>
             <url-pattern>/home</url-pattern>
@@ -40,7 +41,7 @@
         <auth-constraint>
             <role-name>*</role-name>
         </auth-constraint>
-    </security-constraint>
+    </security-constraint> -->
      
     <!-- Any admin page and/or backend URLs require admin role -->
     <!-- <security-constraint>
@@ -55,8 +56,11 @@
     </security-constraint>  -->
     
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+   	<!-- The servlet below is only needed for the Google Cloud EndPoint infrastructure
+	to recognize and update the API, in terms of the servlet itself the mapping
+	above using Guice takes care of mapping requests to the correct servlet -->
 
  <servlet>
   <servlet-name>SystemServiceServlet</servlet-name>
