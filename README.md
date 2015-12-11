@@ -1,7 +1,7 @@
 Appstart
 ========
 
-Appstart is a Java boilerplate template for rapid development of multi-module [Google App Engine][1] applications based on [Google Guice][2], a lightweight dependency injection framework. 
+Appstart is an opinionated Java boilerplate template for rapid development of multi-module [Google App Engine][1] applications based on [Google Guice][2], a lightweight dependency injection framework.
 Appstart uses the [App Engine Maven plugin][4], it has a parent pom and 3 maven projects. 2 of the projects (appstart-front and appstart-backend) are App Engine modules.
 
 App Engine multi-module applications are organized as an unpacked [Java Enterprise Archive (EAR)][17] directory structure. This project contains the following directories:
@@ -46,7 +46,7 @@ You need to change the following values with your own:
 
 - App Engine app-id (`<appengine.app.name>appstart-web</appengine.app.name>`) in appstart/pom.xml 
 - The module versions (`<appengine.app.version>v1</appengine.app.version>`) for appstart-front and appstart-backend located in the pom.xml for each module.
-- For [Google Cloud Endpoints][3] Update the values in (`appstart/appstart-frontend/src/main/java/uk/co/inetria/appstart/Constants.java`) to reflect the respective client IDs you have registered in the [APIs Console][5].
+- For [Google Cloud Endpoints][3] Update the values in [(`appstart/appstart-frontend/src/main/java/uk/co/inetria/appstart/Constants.java`)][19] and [(`appstart-frontend/src/main/webapp/js/endpoint.js`)][20] to reflect the respective client IDs you have registered in the [APIs Console][5].
 
 To run or deploy the application (all modules):
 ```bash
@@ -108,3 +108,5 @@ Open Source (Apache License 2.0)
 [16]: http://appstart-web.appspot.com/
 [17]: https://en.wikipedia.org/wiki/EAR_(file_format)
 [18]: https://cloud.google.com/appengine/docs/java/modules/#optional_configuration_files
+[19]: https://github.com/omerio/appstart/blob/master/appstart-frontend/src/main/java/uk/co/inetria/appstart/frontend/Constants.java
+[20]: https://github.com/omerio/appstart/blob/master/appstart-frontend/src/main/webapp/js/endpoint.js
