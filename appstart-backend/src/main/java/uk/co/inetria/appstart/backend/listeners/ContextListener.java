@@ -24,10 +24,12 @@ import javax.servlet.ServletContextEvent;
 
 import uk.co.inetria.appstart.backend.di.AppServletModule;
 import uk.co.inetria.appstart.backend.di.BusinessLogicModule;
+import uk.co.inetria.appstart.common.entities.Todo;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
+import com.googlecode.objectify.ObjectifyService;
 
 /**
  * Servlet Context Listener for when the application is started, we initialize Guice here
@@ -47,7 +49,7 @@ public class ContextListener extends GuiceServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		super.contextInitialized(event);
 		// Register you objectify entities here
-
+		ObjectifyService.register(Todo.class);
 		log.info("Context created");
 
 	}

@@ -19,13 +19,18 @@
 package uk.co.inetria.appstart.backend.servlets;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import uk.co.inetria.appstart.common.services.TodoService;
 
 /**
  * This servlet will be invoked daily by a GAE cron job to archive all completed
@@ -38,19 +43,43 @@ import com.google.inject.Singleton;
 public class BackendServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -3573239534075174833L;
+	
+	private static final Logger log = Logger.getLogger(BackendServlet.class.getName());
+	
+	public static final String CONTENT_TYPE_HTML = "text/html";
+
+	private TodoService service;
 
 	/* (non-Javadoc)
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
-		// kick a backend thread to carryout with the work
+		log.info("Backend started, instance: " + this);
 		
-		resp.getWriter().println("Backend job started successfully");
-		resp.setStatus(HttpServletResponse.SC_OK);
+		// run your batch job directly or utilise background threads using ThreadManager.createBackgroundThread()
+		
+		try {
+			
+			this.service.archive();
+			
+			response.setStatus(HttpServletResponse.SC_OK);
+			
+		} catch(Exception e) {
+			
+			log.log(Level.SEVERE, "Failed to run backend job",  e);
+			
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		}
+		
+		response.setContentType(CONTENT_TYPE_HTML);
+	}
+
+	@Inject
+	public void setService(TodoService service) {
+		this.service = service;
 	}
 
 }

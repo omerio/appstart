@@ -8,7 +8,7 @@
  * model.
  */
 angular.module('todomvc')
-	.factory('todoStorage', function ($q, $http, $injector) {
+	.factory('todoStorage', function ($q, $http, $injector, toastr) {
 		'use strict';
 
 		// Detect if an API backend is present. If so, return the API module, else
@@ -23,21 +23,28 @@ angular.module('todomvc')
   	var promise = deferred.promise;
 		promise.then(function() { 	return $injector.get('api'); });
 		return promise;*/
+		var toast = toastr.info('Loading please wait...', 'Information', {
+			timeOut: 3000
+		});
 
 		return $http.get('/api/todo')
 			.then(function () {
 				return $injector.get('api');
-			}/*, function () {
+			}, function () {
 				return $injector.get('localStorage');
-			}*/
+			}
 		);
 	})
 
-	.factory('api', function ($resource) {
+	.factory('api', function ($resource, $q, toastr) {
 		'use strict';
 
 		var store = {
 			todos: [],
+
+			toastrTimeout: 3000,
+
+			endpointType: 'jerseyrest',
 
 			api: $resource('/api/todo/:id', null,
 				{
@@ -45,7 +52,36 @@ angular.module('todomvc')
 				}
 			),
 
-			clearCompleted: function () {
+			isEndpointLoaded: function() {
+				var loaded = false;
+				if(gapi.client.appstart) {
+					loaded = true;
+				} else {
+					toastr.error('Cloud Endpoints client is not loaded, please refresh the page.', 'Error', { timeOut: store.toastrTimeout });
+				}
+				return loaded;
+			},
+
+			callCloudEndpoint: function(endpoint, callback, skipAuth) {
+
+				if (store.isEndpointLoaded()) {
+					// call the cloud endpoint
+					if(skipAuth || appstart.isOAuthTokenValid()) {
+
+						endpoint.execute(callback);
+
+					} else {
+						// token is expired, renew and try again
+						appstart.functions.callbacks = [function() {
+							endpoint.execute(callback);
+						}];
+
+						appstart.refreshOAuthTokenIfExpired();
+					}
+				}
+			},
+
+			/*clearCompleted: function () {
 				var originalTodos = store.todos.slice(0);
 
 				var completeTodos = [];
@@ -64,41 +100,174 @@ angular.module('todomvc')
 					}, function error() {
 						angular.copy(originalTodos, store.todos);
 					});
-			},
+			},*/
 
 			delete: function (todo) {
 				var originalTodos = store.todos.slice(0);
 
 				store.todos.splice(store.todos.indexOf(todo), 1);
-				return store.api.delete({ id: todo.id },
-					function () {
-					}, function error() {
-						angular.copy(originalTodos, store.todos);
-					});
+
+				var promise;
+				var auth = false;
+
+				switch(store.endpointType) {
+
+					case 'jerseyrest':
+						promise = store.api.delete({ id: todo.id },
+							function () {
+							}, function error() {
+								angular.copy(originalTodos, store.todos);
+							});
+
+					break;
+
+					case 'cloudendpointsauth':
+						auth = true;
+
+					case 'cloudendpoints':
+						var deferred = $q.defer();
+
+						store.callCloudEndpoint(gapi.client.appstart.todos.delete({'id': todo.id, 'auth': auth}), function(resp) {
+								if (resp.error) {
+									toastr.error('A server error has occured please try again. ' + resp.error.message, 'Error', { timeOut: store.toastrTimeout });
+									angular.copy(originalTodos, store.todos);
+								}
+
+								deferred.resolve(store.todos);
+						}, true);
+
+						promise = deferred.promise;
+
+					break;
+
+				};
+
+				return promise;
 			},
 
-			get: function () {
-				return store.api.query(function (resp) {
-					angular.copy(resp, store.todos);
-				});
+			get: function ($scope) {
+				var promise;
+				var auth = false;
+
+				switch(store.endpointType) {
+
+					case 'jerseyrest':
+						promise = store.api.query(function (resp) {
+							angular.copy(resp, store.todos);
+						});
+					break;
+
+					case 'cloudendpointsauth':
+						auth = true;
+
+					case 'cloudendpoints':
+						var deferred = $q.defer();
+
+						store.callCloudEndpoint(gapi.client.appstart.todos.list({'auth': auth}), function(resp) {
+								if (resp.error) {
+									toastr.error('A server error has occured please try again. ' + resp.error.message, 'Error', { timeOut: store.toastrTimeout });
+								} else {
+									angular.copy(resp.items, store.todos);
+								}
+								deferred.resolve(store.todos);
+
+								// had to pass the $scope as it wasn't refreshing when store.todos changes
+								if($scope) {
+									 $scope.$apply();
+								}
+						}, true);
+
+						promise = deferred.promise;
+
+					break;
+
+				};
+
+				return promise;
 			},
 
 			insert: function (todo) {
 				var originalTodos = store.todos.slice(0);
 
-				return store.api.save(todo,
-					function success(resp) {
-						todo.id = resp.id;
-						store.todos.push(todo);
-					}, function error() {
-						angular.copy(originalTodos, store.todos);
-					})
-					.$promise;
+				var promise;
+				var auth = false;
+
+				switch(store.endpointType) {
+
+					case 'jerseyrest':
+						promise = store.api.save(todo,
+							function success(resp) {
+								todo.id = resp.id;
+								store.todos.push(todo);
+
+							}, function error() {
+								angular.copy(originalTodos, store.todos);
+						}).$promise;
+
+					break;
+
+					case 'cloudendpointsauth':
+						auth = true;
+
+					case 'cloudendpoints':
+						var deferred = $q.defer();
+
+						store.callCloudEndpoint(gapi.client.appstart.todos.create({'auth': auth, 'resource': todo}), function(resp) {
+								if (resp.error) {
+									toastr.error('A server error has occured please try again. ' + resp.error.message, 'Error', { timeOut: store.toastrTimeout });
+									angular.copy(originalTodos, store.todos);
+
+								} else {
+									todo.id = resp.id;
+									store.todos.push(todo);
+								}
+								deferred.resolve(store.todos);
+						}, true);
+
+						promise = deferred.promise;
+
+					break;
+
+				};
+
+				return promise;
 			},
 
 			put: function (todo) {
-				return store.api.update({ id: todo.id }, todo)
-					.$promise;
+
+				var promise;
+				var auth = false;
+
+				switch(store.endpointType) {
+
+					case 'jerseyrest':
+						promise = store.api.update({ id: todo.id }, todo).$promise;
+
+					break;
+
+					case 'cloudendpointsauth':
+						auth = true;
+
+					case 'cloudendpoints':
+						var deferred = $q.defer();
+
+						store.callCloudEndpoint(gapi.client.appstart.todos.update({'id': todo.id, 'resource': todo, 'auth': auth}), function(resp) {
+								if (resp.error) {
+									toastr.error('A server error has occured please try again. ' + resp.error.message, 'Error', { timeOut: store.toastrTimeout });
+									deferred.reject(resp);
+								} else {
+									deferred.resolve(resp);
+								}
+
+						}, true);
+
+						promise = deferred.promise;
+
+					break;
+
+				};
+
+				return promise;
 			}
 		};
 

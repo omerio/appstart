@@ -5,8 +5,8 @@
  *
  * @type {angular.Module}
  */
-angular.module('todomvc', ['ngRoute', 'ngResource'])
-	.config(function ($routeProvider) {
+angular.module('todomvc', ['ngRoute', 'ngResource', 'ngAnimate', 'toastr'])
+	.config(function ($routeProvider, toastrConfig) {
 		'use strict';
 
 		var routeConfig = {
@@ -29,4 +29,9 @@ angular.module('todomvc', ['ngRoute', 'ngResource'])
 			.otherwise({
 				redirectTo: '/'
 			});
+
+		 angular.extend(toastrConfig, {
+		    //positionClass: 'toast-top-center',
+				progressBar: true
+		  });
 	});

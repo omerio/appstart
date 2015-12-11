@@ -5,12 +5,45 @@
 		<title>Appstart • App Engine Java Boilerplate Template</title>
 		<link rel="stylesheet" href="node_modules/todomvc-common/base.css">
 		<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
-		<style>[ng-cloak] { display: none; }</style>
+		<link rel="stylesheet" href="node_modules/angular-toastr/angular-toastr.min.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+		<style>
+			[ng-cloak] { display: none; }
+			#config {
+				text-align: center;
+			}
+
+		</style>
 	</head>
 	<body ng-app="todomvc">
 		<ng-view />
 
 		<script type="text/ng-template" id="todomvc-index.html">
+		  <section id="config">
+					<h2>Which API would you like to use?</h2>
+					<input type="radio" id="jerseyrest" name="endpoint-type" value="jerseyrest" ng-model="endpointType" checked>
+					<label 	for="jerseyrest">
+						Jersey REST
+					</label>
+
+					<input type="radio" id="cloudendpoints" name="endpoint-type" value="cloudendpoints" ng-model="endpointType">
+					<label for="cloudendpoints">
+						Cloud Endpoints (Unauthenticated)
+					</label>
+
+					<input type="radio" id="cloudendpointsauth" name="endpoint-type" value="cloudendpointsauth" ng-model="endpointType">
+					<label for="cloudendpointsauth">
+						Cloud Endpoints (Authenticated)
+					</label>
+
+					<div ng-show="endpointType == 'cloudendpointsauth'">
+						<button class="auth btn btn-primary" onclick="appstart.auth();" style="display: none;">
+							<i class="fa fa-lock"></i>
+		          Authenticate
+		        </button>
+					</div>
+			</section>
 			<section id="todoapp">
 				<header id="header">
 					<h1>todos</h1>
@@ -49,28 +82,31 @@
 							<a ng-class="{selected: status == 'completed'}" href="#/completed">Completed</a>
 						</li>
 					</ul>
-					<button id="clear-completed" ng-click="clearCompletedTodos()" ng-show="completedCount">Clear completed</button>
+					<!-- <button id="clear-completed" ng-click="clearCompletedTodos()" ng-show="completedCount">Clear completed</button> -->
+					<button id="refresh-todos" ng-click="refresh()"><i class="fa fa-refresh"></i> Refresh</button>
 				</footer>
 			</section>
 			<footer id="info">
 				<p>Double-click to edit a todo</p>
-				<p>Credits:
-					<a href="http://twitter.com/cburgdorf">Christoph Burgdorf</a>,
-					<a href="http://ericbidelman.com">Eric Bidelman</a>,
-					<a href="http://jacobmumm.com">Jacob Mumm</a> and
-					<a href="http://blog.igorminar.com">Igor Minar</a>
+				<p>Appstart:
+					<a href="https://github.com/omerio/appstart">https://github.com/omerio/appstart</a>
 				</p>
-				<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+				<p>Frontend based on <a href="http://todomvc.com">TodoMVC</a></p>
 			</footer>
 		</script>
 		<script src="node_modules/todomvc-common/base.js"></script>
 		<script src="node_modules/angular/angular.js"></script>
 		<script src="node_modules/angular-route/angular-route.js"></script>
 		<script src="node_modules/angular-resource/angular-resource.js"></script>
+		<script src="node_modules/angular-animate/angular-animate.js"></script>
+		<script src="node_modules/angular-toastr/angular-toastr.tpls.min.js"></script>
 		<script src="js/app.js"></script>
+		<script src="js/endpoint.js"></script>
 		<script src="js/controllers/todoCtrl.js"></script>
 		<script src="js/services/todoStorage.js"></script>
 		<script src="js/directives/todoFocus.js"></script>
 		<script src="js/directives/todoEscape.js"></script>
+		<!-- Google JavaScript client for Cloud Endpoints Auth -->
+		<script src="//apis.google.com/js/client.js?onload=apiClientInit"></script>
 	</body>
 </html>

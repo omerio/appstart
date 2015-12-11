@@ -13,11 +13,23 @@ angular.module('todomvc')
 
 		$scope.newTodo = '';
 		$scope.editedTodo = null;
+		$scope.endpointType = localStorage.endpointType || 'jerseyrest';
 
 		$scope.$watch('todos', function () {
 			$scope.remainingCount = $filter('filter')(todos, { completed: false }).length;
 			$scope.completedCount = todos.length - $scope.remainingCount;
 			$scope.allChecked = !$scope.remainingCount;
+		}, true);
+
+		$scope.$watch('endpointType', function(endpointType) {
+				store.endpointType = endpointType;
+				localStorage.endpointType = endpointType;
+
+				// Refresh the todos using the choosen endpoint.
+				setTimeout(function() {
+					store.get($scope);
+				}, 1000);
+
 		}, true);
 
 		// Monitor the current route for changes and adjust the filter accordingly.
@@ -99,6 +111,10 @@ angular.module('todomvc')
 
 		$scope.saveTodo = function (todo) {
 			store.put(todo);
+		};
+
+		$scope.refresh = function() {
+			store.get($scope);
 		};
 
 		$scope.toggleCompleted = function (todo, completed) {

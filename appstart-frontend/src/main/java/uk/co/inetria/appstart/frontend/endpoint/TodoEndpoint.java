@@ -19,6 +19,7 @@ import com.google.inject.Inject;
 
 /**
  * Defines v1 of a appstart todo API, which provides simple CRUD methods.
+ * If the auth flag is provided this endpoint performs validation of the user
  */
 @Api(
 		name = "appstart",
@@ -36,14 +37,18 @@ public class TodoEndpoint {
 	private TodoService service;
 	
 	@ApiMethod(name = "todos.list")
-	public List<Todo> list(User user) {
-		this.authenticate(user);
+	public List<Todo> list(@Named("auth") boolean auth, User user) {
+		if(auth) {
+			this.authenticate(user);
+		}
 		return Todo.findAllByArchived(false);
 	}
 	
 	@ApiMethod(name = "todos.get")
-	public Todo get(@Named("id") Long id, User user) {
-		this.authenticate(user);
+	public Todo get(@Named("id") Long id, @Named("auth") boolean auth, User user) {
+		if(auth) {
+			this.authenticate(user);
+		}
 		Todo todo = Todo.findById(id);
 		if(todo == null) {
 			throw new RuntimeException("Todo with id: " + id + ", is not found");
@@ -52,8 +57,10 @@ public class TodoEndpoint {
 	}
 	
 	@ApiMethod(name = "todos.create", httpMethod = "post")
-	public Todo create(Todo dodo, User user) {
-		this.authenticate(user);
+	public Todo create(@Named("auth") boolean auth, Todo dodo, User user) {
+		if(auth) {
+			this.authenticate(user);
+		}
 		try {
 			service.create(dodo);
 			
@@ -69,10 +76,12 @@ public class TodoEndpoint {
 		name = "todos.update",
 		path = "todos/{id}"
 	)
-	public Todo update(@Named("id") Long id,
-							   Todo todo, User user) {
-		this.authenticate(user);
+	public Todo update(@Named("id") Long id, @Named("auth") boolean auth, Todo todo, User user) {
+		if(auth) {
+			this.authenticate(user);
+		}
 		try {
+			
 			service.update(todo, id);
 			
 		} catch(Exception e) {
@@ -87,8 +96,11 @@ public class TodoEndpoint {
 		name = "todos.delete",
 		path = "todos/{id}"
 	)
-	public Todo delete(@Named("id") Long id, User user) {
-		this.authenticate(user);
+	public Todo delete(@Named("id") Long id, @Named("auth") boolean auth, User user) {
+		if(auth) {
+			this.authenticate(user);
+		}
+		
 		Todo todo = null;
 		try {
 			todo = service.delete(id);
@@ -103,7 +115,7 @@ public class TodoEndpoint {
 	private void authenticate(User user) {
 		if(user == null) {
 			log.warning("User is not authenticated");
-			//throw new RuntimeException("Authentication required!");
+			throw new RuntimeException("Authentication required!");
 		} else {
 			// further validation such as domain checking, etc...
 			log.info(user.getEmail());
