@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <datastore-indexes autoGenerate="true">
+
+	<datastore-index kind="Todo" ancestor="false" source="manual">
+        <property name="archived" direction="asc"/>
+        <property name="completed" direction="asc"/>
+        <property name="dateAdded" direction="asc"/>
+    </datastore-index>
     
 </datastore-indexes>
