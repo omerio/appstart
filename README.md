@@ -16,6 +16,7 @@ Appstart encourages the [Single Page Application (SPA)][13] pattern by providing
 ## Demo ##
 
 A live demo is available here [http://appstart-web.appspot.com/][16].
+Explore the Cloud Endpoint API for Appstart (here)[https://apis-explorer.appspot.com/apis-explorer/?base=https://appstart-web.appspot.com/_ah/api#p/appstart/v1/].
 
 ## Key Technologies/Libraries
 
