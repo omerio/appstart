@@ -15,7 +15,7 @@ Appstart encourages the [Single Page Application (SPA)][13] pattern by providing
 
 ## Demo ##
 
-A live demo is available here [http://appstart-web.appspot.com/][16].
+A live demo is available here [https://appstart-web.appspot.com/][16].
 
 Explore the Cloud Endpoint API for Appstart [here](https://apis-explorer.appspot.com/apis-explorer/?base=https://appstart-web.appspot.com/_ah/api#p/appstart/v1/).
 
@@ -107,7 +107,7 @@ Open Source (Apache License 2.0)
 [13]: http://omerio.com/2014/03/23/single-page-apps-a-bleeding-edge-new-concept-or-a-revived-old-one/
 [14]: https://cloud.google.com/appengine/docs/java/tools/localunittesting
 [15]: http://jmockit.org/
-[16]: http://appstart-web.appspot.com/
+[16]: https://appstart-web.appspot.com/
 [17]: https://en.wikipedia.org/wiki/EAR_(file_format)
 [18]: https://cloud.google.com/appengine/docs/java/modules/#optional_configuration_files
 [19]: https://github.com/omerio/appstart/blob/master/appstart-frontend/src/main/java/uk/co/inetria/appstart/frontend/Constants.java
