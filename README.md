@@ -85,8 +85,8 @@ To deploy or run individual modules:
 ## TODO:
 * Create documentations.
 * Add sample unit tests that uses the App Engine local unit testing libraries.
-* ~~ Create Cloud Endpoints frontend code to authenticate a user and refresh the OAuth token once it expires. ~~
-* ~~ Provide an option on the frontend to use either the JAX-RS REST or Cloud Endpoints. ~~
+* ~~Create Cloud Endpoints frontend code to authenticate a user and refresh the OAuth token once it expires.~~
+* ~~Provide an option on the frontend to use either the JAX-RS REST or Cloud Endpoints.~~
 * Create a Maven archetype to easily scaffold projects.
 
 ## Contributing:
