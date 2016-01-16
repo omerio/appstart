@@ -19,6 +19,12 @@ A live demo is available here [https://appstart-web.appspot.com/][16].
 
 Explore the Cloud Endpoint API for Appstart [here](https://apis-explorer.appspot.com/apis-explorer/?base=https://appstart-web.appspot.com/_ah/api#p/appstart/v1/).
 
+
+## Overall Architecture
+
+![Alt text](http://omerio.com/wp-content/uploads/2016/01/GAE-Appstart-Architecture.png "Architecture")
+
+
 ## Key Technologies/Libraries
 
 The following key technologies/libraries are used by Appstart. You can either use some or all of these technologies depending on your needs:
@@ -34,7 +40,7 @@ The following key technologies/libraries are used by Appstart. You can either us
 - <b>[Objectify][6]</b>: Convenient data access API for the App Engine datastore.
 - <b>[Cloud Endpoints][3]</b>: App Engine REST/RPC API to simplify clients (Android, iOS, etc..) access.
 - <b>[Jersey & Jersey Guice integration][7]</b>: Jersey framework is an implementation of the JAX-RS (JSR 311 & JSR 339) to provide RESTful Web services in Java. 
-- <b>[Lombok][8]</b>: A framework for boilerplate code generation such as getter, setter, constructors, equalTo, hashCode, etc... Saving you time to focus on your business logic.
+- <b>[Lombok][8]</b>: A framework for boilerplate code generation such as getter, setter, constructors, equalTo, hashCode, etc... Saving you time to focus on your business logic. Note: for the code to compile in your IDE and not to show compile errors, you need to install Lombok in your IDE as explained [here][21].
 - <b>[Google Guava][9], [Google Gson][11] and [Apache Commons Lang][10]</b>: Useful Java libraries that plays well with App Engine.
 - <b>[App Engine Unit Testing Libraries][14] & [jMockit][15]</b>: Creating unit tests using the App Engine local unit testing libraries. Mocking is achieved using the jMockit mocking library.
 
@@ -112,3 +118,4 @@ Open Source (Apache License 2.0)
 [18]: https://cloud.google.com/appengine/docs/java/modules/#optional_configuration_files
 [19]: https://github.com/omerio/appstart/blob/master/appstart-frontend/src/main/java/uk/co/inetria/appstart/frontend/Constants.java
 [20]: https://github.com/omerio/appstart/blob/master/appstart-frontend/src/main/webapp/js/endpoint.js
+[21]: http://jnb.ociweb.com/jnb/jnbJan2010.html#installation
